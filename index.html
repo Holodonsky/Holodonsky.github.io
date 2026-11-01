@@ -1,330 +1,257 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio Banner — Dev & Design</title>
-
-  <!-- Tailwind CSS CDN -->
+  <title>LolzTeam Banner & Slicer</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Google Fonts: Inter & Unbounded -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@600;700;800&display=swap"
-    rel="stylesheet">
-
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            display: ['Unbounded', 'sans-serif'],
-          },
-          colors: {
-            dark: {
-              base: '#08090C',
-              surface: '#0E1017',
-              card: '#131622',
-            },
-            accent: {
-              purple: '#9D4EDD',
-              purpleDeep: '#7B2CBF',
-              blue: '#3B82F6',
-              blueDeep: '#1E3A8A',
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
   <style>
-    /* Плавные переходы и эффекты свечения */
-    .glass-panel {
-      background: rgba(19, 22, 34, 0.72);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(157, 78, 221, 0.18);
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    body {
+      background-color: #050608;
+      font-family: 'Inter', sans-serif;
     }
-
+    .font-heading {
+      font-family: 'Unbounded', sans-serif;
+    }
+    .font-mono-tag {
+      font-family: 'JetBrains Mono', monospace;
+    }
     .glass-card {
-      background: linear-gradient(135deg, rgba(23, 27, 44, 0.65) 0%, rgba(14, 16, 23, 0.8) 100%);
-      border: 1px solid rgba(157, 78, 221, 0.15);
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      background: rgba(13, 15, 23, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(157, 78, 221, 0.22);
     }
-
-    .glass-card:hover {
+    .glass-card-hover:hover {
       border-color: rgba(157, 78, 221, 0.55);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px -8px rgba(123, 44, 191, 0.28), 0 0 15px 0 rgba(59, 130, 246, 0.15);
+      background: rgba(18, 21, 33, 0.88);
+      box-shadow: 0 0 25px -5px rgba(123, 44, 191, 0.3);
     }
-
     .glow-bg {
-      position: absolute;
-      border-radius: 9999px;
-      filter: blur(110px);
-      pointer-events: none;
-      z-index: 0;
+      background: 
+        radial-gradient(circle at 15% 12%, rgba(123, 44, 191, 0.18) 0%, transparent 40%),
+        radial-gradient(circle at 85% 35%, rgba(30, 58, 138, 0.22) 0%, transparent 45%),
+        radial-gradient(circle at 50% 80%, rgba(91, 33, 182, 0.16) 0%, transparent 45%);
     }
   </style>
 </head>
+<body class="text-white min-h-screen py-10 flex flex-col items-center justify-center">
 
-<body
-  class="bg-[#08090C] text-slate-100 min-h-screen flex items-center justify-center p-3 sm:p-6 antialiased selection:bg-purple-600 selection:text-white">
-
-  <!-- Фоновые мягкие неоновые пятна без едкости -->
-  <div class="fixed inset-0 overflow-hidden pointer-events-none">
-    <div class="glow-bg w-[480px] h-[480px] bg-purple-900/25 top-[-100px] left-1/2 -translate-x-1/2"></div>
-    <div class="glow-bg w-[400px] h-[400px] bg-blue-900/20 bottom-[10%] right-[10%]"></div>
-    <div class="glow-bg w-[350px] h-[350px] bg-indigo-950/30 bottom-[-50px] left-[5%]"></div>
+  <!-- ПАНЕЛЬ УПРАВЛЕНИЯ ЭКСПОРТОМ -->
+  <div class="w-full max-w-[880px] mb-6 p-4 rounded-2xl glass-card flex flex-wrap items-center justify-between gap-4 border-cyan-500/30">
+    <div class="flex items-center gap-3">
+      <div class="w-3 h-3 rounded-full bg-emerald-400 animate-ping"></div>
+      <span class="text-sm font-medium text-slate-300">Ширина баннера: <b class="text-white">880px</b> (Стандарт LolzTeam)</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <button id="btnSlice" onclick="sliceBanner()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 font-semibold text-xs tracking-wider uppercase transition shadow-lg shadow-violet-600/30 flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        Нарезать на 4 части (PNG)
+      </button>
+      <button id="btnFull" onclick="downloadFullBanner()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 font-semibold text-xs tracking-wider uppercase transition text-slate-300 hover:text-white">
+        Скачать цельным
+      </button>
+    </div>
   </div>
 
-  <!-- Главный контейнер (Шоукейс баннер для LolzTeam) -->
-  <main
-    class="relative z-10 w-full max-w-[680px] glass-panel rounded-3xl p-5 sm:p-8 flex flex-col gap-6 border border-white/10">
-
-    <!-- ХЕДЕР -->
-    <header class="flex flex-col items-center text-center gap-3">
-      <!-- Бейджи / Теги -->
-      <div class="flex flex-wrap items-center justify-center gap-2">
-        <span
-          class="px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider text-purple-300 bg-purple-950/60 border border-purple-500/30">
-          <i class="fa-solid fa-code text-[10px] mr-1"></i> DEV & DESIGN
-        </span>
-        <span
-          class="px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider text-blue-300 bg-blue-950/60 border border-blue-500/30">
-          <i class="fa-solid fa-bolt text-[10px] mr-1"></i> FAST DELIVERY
-        </span>
-        <span
-          class="px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider text-emerald-300 bg-emerald-950/50 border border-emerald-500/30">
-          <i class="fa-solid fa-shield-halved text-[10px] mr-1"></i> GUARANTEE
-        </span>
-      </div>
-
-      <!-- Главный заголовок -->
-      <h1 class="font-display text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white leading-tight mt-1">
-        Разработка ботов, сайтов и&nbsp;дизайн <span
-          class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-indigo-300 to-blue-400">под
-          ключ</span>
-      </h1>
-
-      <!-- Подзаголовок -->
-      <p class="text-slate-400 text-sm sm:text-base max-w-[540px] leading-relaxed">
-        Автоматизация процессов, Telegram / Discord инфраструктура, продающая графика для e-commerce.
-      </p>
-    </header>
-
-    <!-- РАЗДЕЛ: ЧТО ВХОДИТ В РАЗРАБОТКУ (СЕТКА 2x2) -->
-    <section>
-      <div class="flex items-center gap-2 mb-3 px-1">
-        <i class="fa-solid fa-shapes text-purple-400 text-sm"></i>
-        <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Спектр услуг</h2>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-
-        <!-- Карточка 1: Telegram & Discord -->
-        <a href="https://t.me/Ifyoseee" target="_blank" rel="noopener noreferrer"
-          class="glass-card group p-4 rounded-2xl flex flex-col justify-between block cursor-pointer">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <div
-                class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 group-hover:scale-105 group-hover:bg-purple-500/20 transition-all">
-                <i class="fa-brands fa-telegram text-xl"></i>
-              </div>
-              <i
-                class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-purple-300 transition-colors"></i>
-            </div>
-            <h3
-              class="font-display text-base font-semibold text-white group-hover:text-purple-300 transition-colors mb-1.5">
-              Telegram & Discord Боты
-            </h3>
-            <p class="text-xs leading-relaxed text-slate-400">
-              Магазины, автовыдача товаров, модерация серверов, прием платежей (CryptoBot, ЮKassa, СБП), интеграция с
-              AI.
-            </p>
+  <!-- БАННЕР ДЛЯ ФОРУМА (Ширина 880px) -->
+  <div id="forumBanner" class="w-[880px] bg-[#08090C] glow-bg rounded-3xl border border-white/10 p-10 flex flex-col gap-8 shadow-2xl relative overflow-hidden">
+    
+    <!-- ЧАСТЬ 1: ШАПКА -->
+    <div id="slice-part-1" class="flex flex-col gap-6 relative">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 flex items-center justify-center shadow-lg shadow-violet-600/40">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
           </div>
-          <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center text-[11px] text-purple-400/80 font-medium">
-            <span>Заказать бота</span>
-            <i class="fa-solid fa-angle-right ml-1 text-[9px] group-hover:translate-x-1 transition-transform"></i>
-          </div>
-        </a>
-
-        <!-- Карточка 2: Лендинги и Веб -->
-        <a href="https://t.me/Ifyoseee" target="_blank" rel="noopener noreferrer"
-          class="glass-card group p-4 rounded-2xl flex flex-col justify-between block cursor-pointer">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <div
-                class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 group-hover:scale-105 group-hover:bg-blue-500/20 transition-all">
-                <i class="fa-solid fa-globe text-lg"></i>
-              </div>
-              <i
-                class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-blue-300 transition-colors"></i>
-            </div>
-            <h3
-              class="font-display text-base font-semibold text-white group-hover:text-blue-300 transition-colors mb-1.5">
-              Лендинги и Веб-сервисы
-            </h3>
-            <p class="text-xs leading-relaxed text-slate-400">
-              Адаптивные промо-страницы, портфолио, визитки, чистый HTML/CSS/JS + бэкенд и деплой.
-            </p>
-          </div>
-          <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center text-[11px] text-blue-400/80 font-medium">
-            <span>Заказать сайт</span>
-            <i class="fa-solid fa-angle-right ml-1 text-[9px] group-hover:translate-x-1 transition-transform"></i>
-          </div>
-        </a>
-
-        <!-- Карточка 3: Инфографика WB / Ozon -->
-        <a href="https://t.me/Ifyoseee" target="_blank" rel="noopener noreferrer"
-          class="glass-card group p-4 rounded-2xl flex flex-col justify-between block cursor-pointer">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <div
-                class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 group-hover:scale-105 group-hover:bg-purple-500/20 transition-all">
-                <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
-              </div>
-              <i
-                class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-purple-300 transition-colors"></i>
-            </div>
-            <h3
-              class="font-display text-base font-semibold text-white group-hover:text-purple-300 transition-colors mb-1.5">
-              Инфографика & Маркетплейсы
-            </h3>
-            <p class="text-xs leading-relaxed text-slate-400">
-              Кликабельные обложки и карточки товаров для Wildberries / Ozon, сочный 3D/AI-рендер и ретушь.
-            </p>
-          </div>
-          <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center text-[11px] text-purple-400/80 font-medium">
-            <span>Заказать дизайн</span>
-            <i class="fa-solid fa-angle-right ml-1 text-[9px] group-hover:translate-x-1 transition-transform"></i>
-          </div>
-        </a>
-
-        <!-- Карточка 4: Скрипты и Парсеры -->
-        <a href="https://t.me/Ifyoseee" target="_blank" rel="noopener noreferrer"
-          class="glass-card group p-4 rounded-2xl flex flex-col justify-between block cursor-pointer">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <div
-                class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 group-hover:scale-105 group-hover:bg-blue-500/20 transition-all">
-                <i class="fa-solid fa-terminal text-lg"></i>
-              </div>
-              <i
-                class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-blue-300 transition-colors"></i>
-            </div>
-            <h3
-              class="font-display text-base font-semibold text-white group-hover:text-blue-300 transition-colors mb-1.5">
-              Скрипты и Парсеры
-            </h3>
-            <p class="text-xs leading-relaxed text-slate-400">
-              Автоматизация рутины, сбор данных, чекеры, работа со сторонними API и оптимизация потоков.
-            </p>
-          </div>
-          <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center text-[11px] text-blue-400/80 font-medium">
-            <span>Заказать скрипт</span>
-            <i class="fa-solid fa-angle-right ml-1 text-[9px] group-hover:translate-x-1 transition-transform"></i>
-          </div>
-        </a>
-
-      </div>
-    </section>
-
-    <!-- РАЗДЕЛ: ГАРАНТИИ И ПРЕИМУЩЕСТВА -->
-    <section class="flex flex-col gap-2.5">
-      <div class="flex items-center gap-2 mb-1 px-1">
-        <i class="fa-solid fa-shield-cat text-blue-400 text-sm"></i>
-        <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Надежность и поддержка</h2>
-      </div>
-
-      <!-- Плашка 1 -->
-      <div
-        class="p-3.5 rounded-xl bg-slate-900/40 border border-slate-800/80 hover:border-purple-500/30 transition-colors flex items-start gap-3">
-        <div
-          class="w-7 h-7 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center flex-shrink-0 mt-0.5">
-          <i class="fa-solid fa-server text-xs"></i>
+          <span class="font-heading text-lg font-bold tracking-tight">STUDIO<span class="text-violet-400">.DEV</span></span>
         </div>
+        
+        <div class="flex items-center gap-2">
+          <span class="px-3.5 py-1 rounded-full text-xs font-mono-tag bg-violet-950/70 text-violet-300 border border-violet-500/30">[ DEV & DESIGN ]</span>
+          <span class="px-3.5 py-1 rounded-full text-xs font-mono-tag bg-blue-950/70 text-blue-300 border border-blue-500/30">[ FAST WORK ]</span>
+          <span class="px-3.5 py-1 rounded-full text-xs font-mono-tag bg-emerald-950/70 text-emerald-300 border border-emerald-500/30">[ ГАРАНТИЯ ]</span>
+        </div>
+      </div>
+
+      <div class="space-y-3 pt-2">
+        <h1 class="font-heading text-3xl font-extrabold leading-tight tracking-tight">
+          Разработка <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-indigo-300 to-blue-400">ботов, веб-сервисов</span> и обложек под ключ
+        </h1>
+        <p class="text-slate-400 text-sm max-w-[700px] leading-relaxed">
+          Автоматизация любого уровня: Telegram и Discord инфраструктура, быстрые адаптивные сайты, продающая инфографика маркетплейсов и парсинг данных.
+        </p>
+      </div>
+    </div>
+
+    <!-- ЧАСТЬ 2: УСЛУГИ (Сетка 2x2) -->
+    <div id="slice-part-2" class="grid grid-cols-2 gap-4">
+      <!-- Card 1 -->
+      <div class="glass-card glass-card-hover p-5 rounded-2xl flex flex-col justify-between transition-all duration-300">
         <div>
-          <h4 class="text-sm font-semibold text-white">Чистый код и деплой</h4>
-          <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">Помогаю с запуском на вашем VDS / хостинге, передаю
-            исходники без мусора и лишних библиотек.</p>
+          <div class="flex items-center justify-between mb-3">
+            <span class="p-2.5 rounded-xl bg-violet-600/20 text-violet-400 border border-violet-500/20">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+            </span>
+            <span class="text-xs font-mono-tag text-slate-500">01 // BOTS</span>
+          </div>
+          <h3 class="font-heading text-base font-bold mb-2">Telegram & Discord Боты</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Интернет-магазины, автовыдача товаров, тикеты, интеграция платежей (CryptoBot, ЮKassa, СБП) и подключение ИИ.
+          </p>
         </div>
       </div>
 
-      <!-- Плашка 2 -->
-      <div
-        class="p-3.5 rounded-xl bg-slate-900/40 border border-slate-800/80 hover:border-purple-500/30 transition-colors flex items-start gap-3">
-        <div
-          class="w-7 h-7 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center flex-shrink-0 mt-0.5">
-          <i class="fa-solid fa-pen-ruler text-xs"></i>
-        </div>
+      <!-- Card 2 -->
+      <div class="glass-card glass-card-hover p-5 rounded-2xl flex flex-col justify-between transition-all duration-300">
         <div>
-          <h4 class="text-sm font-semibold text-white">Бесплатная помощь с ТЗ</h4>
-          <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">Если нет готового техзадания — составим понятную
-            структуру вместе за 15 минут.</p>
+          <div class="flex items-center justify-between mb-3">
+            <span class="p-2.5 rounded-xl bg-blue-600/20 text-blue-400 border border-blue-500/20">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+            </span>
+            <span class="text-xs font-mono-tag text-slate-500">02 // WEB</span>
+          </div>
+          <h3 class="font-heading text-base font-bold mb-2">Лендинги & Веб-сайты</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Современные визитки, промо-страницы, taplink-решения, чистый адаптивный HTML/CSS/JS код с привязкой любого бэкенда.
+          </p>
         </div>
       </div>
 
-      <!-- Плашка 3 -->
-      <div
-        class="p-3.5 rounded-xl bg-slate-900/40 border border-slate-800/80 hover:border-purple-500/30 transition-colors flex items-start gap-3">
-        <div
-          class="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center flex-shrink-0 mt-0.5">
-          <i class="fa-solid fa-clock-rotate-left text-xs"></i>
-        </div>
+      <!-- Card 3 -->
+      <div class="glass-card glass-card-hover p-5 rounded-2xl flex flex-col justify-between transition-all duration-300">
         <div>
-          <h4 class="text-sm font-semibold text-white">Тестовый период</h4>
-          <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">7 дней бесплатного исправления багов и мелких правок
-            после сдачи готового проекта.</p>
+          <div class="flex items-center justify-between mb-3">
+            <span class="p-2.5 rounded-xl bg-fuchsia-600/20 text-fuchsia-400 border border-fuchsia-500/20">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            </span>
+            <span class="text-xs font-mono-tag text-slate-500">03 // DESIGN</span>
+          </div>
+          <h3 class="font-heading text-base font-bold mb-2">Обложки WB / Ozon</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Высокий CTR, выделение на фоне конкурентов, сочная генерация окружения в нейросетях и выверенная продающая типографика.
+          </p>
         </div>
       </div>
-    </section>
 
-    <!-- ФУТЕР И ПРИЗЫВ К ДЕЙСТВИЮ (CTA) -->
-    <footer class="pt-2 border-t border-white/5 flex flex-col items-center gap-3">
+      <!-- Card 4 -->
+      <div class="glass-card glass-card-hover p-5 rounded-2xl flex flex-col justify-between transition-all duration-300">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="p-2.5 rounded-xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/20">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            </span>
+            <span class="text-xs font-mono-tag text-slate-500">04 // AUTOMATION</span>
+          </div>
+          <h3 class="font-heading text-base font-bold mb-2">Скрипты & Парсеры</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Автоматизация рутины, быстрый сбор информации с сайтов, автопостинг, чекеры и интеграция сторонних API.
+          </p>
+        </div>
+      </div>
+    </div>
 
-      <!-- Индикатор онлайна -->
-      <div
-        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/60 border border-slate-800 text-[11px] text-slate-300">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]"></span>
-        <span>В сети • Онлайн для новых задач</span>
+    <!-- ЧАСТЬ 3: ГАРАНТИИ И ПРЕИМУЩЕСТВА -->
+    <div id="slice-part-3" class="grid grid-cols-3 gap-3">
+      <div class="p-4 rounded-xl bg-[#0e1017]/80 border border-white/5 flex flex-col gap-1.5">
+        <div class="flex items-center gap-2 text-violet-400">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          <span class="font-heading text-xs font-bold text-white">Чистый код и деплой</span>
+        </div>
+        <p class="text-[11px] text-slate-400 leading-normal">Помогу настроить и поднять проект на вашем сервере/VDS с инструкцией.</p>
       </div>
 
-      <!-- Главная кнопка перехода в Telegram -->
-      <a href="https://t.me/Ifyoseee" target="_blank" rel="noopener noreferrer"
-        class="w-full relative group overflow-hidden rounded-2xl p-[1px] focus:outline-none focus:ring-2 focus:ring-purple-400">
-        <div
-          class="absolute inset-0 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 rounded-2xl transition-all duration-300 group-hover:scale-[1.02] group-hover:opacity-100 opacity-90">
+      <div class="p-4 rounded-xl bg-[#0e1017]/80 border border-white/5 flex flex-col gap-1.5">
+        <div class="flex items-center gap-2 text-blue-400">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span class="font-heading text-xs font-bold text-white">Помощь с ТЗ</span>
         </div>
-        <div
-          class="relative px-6 py-3.5 rounded-[15px] bg-[#0E1017]/40 flex items-center justify-center gap-3 transition-colors group-hover:bg-transparent">
-          <i class="fa-brands fa-telegram text-xl text-white"></i>
-          <span class="font-display font-semibold text-sm sm:text-base text-white tracking-wide">
-            Написать в Telegram: @Ifyoseee
-          </span>
-          <i class="fa-solid fa-arrow-right text-xs text-white group-hover:translate-x-1 transition-transform"></i>
+        <p class="text-[11px] text-slate-400 leading-normal">Нет четкого техзадания? Сформируем логику и структуру за 10 минут диалога.</p>
+      </div>
+
+      <div class="p-4 rounded-xl bg-[#0e1017]/80 border border-white/5 flex flex-col gap-1.5">
+        <div class="flex items-center gap-2 text-emerald-400">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          <span class="font-heading text-xs font-bold text-white">Тестовый период</span>
         </div>
-      </a>
+        <p class="text-[11px] text-slate-400 leading-normal">7 дней бесплатного исправления багов и консультаций после сдачи проекта.</p>
+      </div>
+    </div>
 
-      <!-- Примечание о безопасной сделке -->
-      <p class="text-[11px] text-slate-500 text-center flex items-center justify-center gap-1.5">
-        <i class="fa-solid fa-lock text-[10px] text-slate-600"></i>
-        Работа через Гарант форума / Безопасная сделка приветствуется
-      </p>
+    <!-- ЧАСТЬ 4: КНОПКА ЗАКАЗА И КОНТАКТЫ -->
+    <div id="slice-part-4" class="p-5 rounded-2xl glass-card flex items-center justify-between border-violet-500/30 bg-gradient-to-r from-violet-950/40 via-transparent to-blue-950/40">
+      <div class="flex items-center gap-3">
+        <div class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></div>
+        <div>
+          <div class="text-sm font-bold text-white">Готов к новым задачам</div>
+          <div class="text-xs text-slate-400">Холд LolzTeam / СБП / Криптовалюта</div>
+        </div>
+      </div>
 
-    </footer>
+      <div class="px-6 py-3 rounded-xl bg-gradient-to-r from-violet-600 via-indigo-600 to-blue-600 text-white font-heading text-xs font-bold tracking-wide shadow-lg shadow-violet-600/30 flex items-center gap-2">
+        <span>НАПИСАТЬ В TELEGRAM</span>
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+      </div>
+    </div>
 
-  </main>
+  </div>
 
+  <!-- СКРИПТ АВТОМАТИЧЕСКОЙ НАРЕЗКИ -->
+  <script>
+    async function sliceBanner() {
+      const btn = document.getElementById('btnSlice');
+      btn.innerText = 'Нарезка в процессе...';
+      btn.disabled = true;
+
+      const slices = [
+        { id: 'slice-part-1', name: '01_header.png' },
+        { id: 'slice-part-2', name: '02_services.png' },
+        { id: 'slice-part-3', name: '03_guarantees.png' },
+        { id: 'slice-part-4', name: '04_cta_button.png' }
+      ];
+
+      for (let item of slices) {
+        const el = document.getElementById(item.id);
+        const canvas = await html2canvas(el, {
+          backgroundColor: '#08090C',
+          scale: 2
+        });
+        
+        const link = document.createElement('a');
+        link.download = item.name;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        await new Promise(r => setTimeout(r, 600));
+      }
+
+      btn.innerText = 'Нарезать на 4 части (PNG)';
+      btn.disabled = false;
+    }
+
+    async function downloadFullBanner() {
+      const btn = document.getElementById('btnFull');
+      btn.innerText = 'Рендеринг...';
+      btn.disabled = true;
+
+      const banner = document.getElementById('forumBanner');
+      const canvas = await html2canvas(banner, {
+        backgroundColor: '#050608',
+        scale: 2
+      });
+
+      const link = document.createElement('a');
+      link.download = 'full_banner_lolz.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+
+      btn.innerText = 'Скачать цельным';
+      btn.disabled = false;
+    }
+  </script>
 </body>
-
 </html>
