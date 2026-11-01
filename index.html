@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Banner — Dev & Design</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Inter & Unbounded -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Unbounded', 'sans-serif'],
+          },
+          colors: {
+            dark: {
+              base: '#08090C',
+              surface: '#0E1017',
+              card: '#131622',
+            },
+            accent: {
+              purple: '#9D4EDD',
+              purpleDeep: '#7B2CBF',
+              blue: '#3B82F6',
+              blueDeep: '#1E3A8A',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Плавные переходы и эффекты свечения */
+    .glass-panel {
+      background: rgba(19, 22, 34, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(157, 78, 221, 0.18);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    .glass-card {
+      background: linear-gradient(135deg, rgba(23, 27, 44, 0.65) 0%, rgba(14, 16, 23, 0.8) 100%);
+      border: 1px solid rgba(157, 78, 221, 0.15);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(157, 78, 221, 0.55);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px -8px rgba(123, 44, 191, 0.28), 0 0 15px 0 rgba(59, 130, 246, 0.15);
+    }
+
+    .glow-bg {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(110px);
+      pointer-events: none;
+      z-index: 0;
+    }
+  </style>
+</head>
+
+<body
+  class="bg-[#08090C] text-slate-100 min-h-screen flex items-center justify-center p-3 sm:p-6 antialiased selection:bg-purple-600 selection:text-white">
+
+  <!-- Фоновые мягкие неоновые пятна без едкости -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="glow-bg w-[480px] h-[480px] bg-purple-900/25 top-[-100px] left-1/2 -translate-x-1/2"></div>
+    <div class="glow-bg w-[400px] h-[400px] bg-blue-900/20 bottom-[10%] right-[10%]"></div>
+    <div class="glow-bg w-[350px] h-[350px] bg-indigo-950/30 bottom-[-50px] left-[5%]"></div>
+  </div>
+
+  <!-- Главный контейнер (Шоукейс баннер для LolzTeam) -->
+  <main
+    class="relative z-10 w-full max-w-[680px] glass-panel rounded-3xl p-5 sm:p-8 flex flex-col gap-6 border border-white/10">
+
+    <!-- ХЕДЕР -->
+    <header class="flex flex-col items-center text-center gap-3">
+      <!-- Бейджи / Теги -->
+      <div class="flex flex-wrap items-center justify-center gap-2">
+        <span
+          class="px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider text-purple-300 bg-purple-950/60 border border-purple-500/30">
+          <i class="fa-solid fa-code text-[10px] mr-1"></i> DEV & DESIGN
+        </span>
+        <span
+          class="px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider text-blue-300 bg-blue-950/60 border border-blue-500/30">
+          <i class="fa-solid fa-bolt text-[10px] mr-1"></i> FAST DELIVERY
+        </span>
+        <span
+          class="px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider text-emerald-300 bg-emerald-950/50 border border-emerald-500/30">
+          <i class="fa-solid fa-shield-halved text-[10px] mr-1"></i> GUARANTEE
+        </span>
+      </div>
+
+      <!-- Главный заголовок -->
+      <h1 class="font-display text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white leading-tight mt-1">
+        Разработка ботов, сайтов и&nbsp;дизайн <span
+          class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-indigo-300 to-blue-400">под
+          ключ</span>
+      </h1>
+
+      <!-- Подзаголовок -->
+      <p class="text-slate-400 text-sm sm:text-base max-w-[540px] leading-relaxed">
+        Автоматизация процессов, Telegram / Discord инфраструктура, продающая графика для e-commerce.
+      </p>
+    </header>
+
+    <!-- РАЗДЕЛ: ЧТО ВХОДИТ В РАЗРАБОТКУ (СЕТКА 2x2) -->
+    <section>
+      <div class="flex items-center gap-2 mb-3 px-1">
+        <i class="fa-solid fa-shapes text-purple-400 text-sm"></i>
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Спектр услуг</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+
+        <!-- Карточка 1: Telegram & Discord -->
+        <a href="https://t.me/Ifyoseee" target="_blank" rel="noopener noreferrer"
+          class="glass-card group p-4 rounded-2xl flex flex-col justify-between block cursor-pointer">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <div
+                class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 group-hover:scale-105 group-hover:bg-purple-500/20 transition-all">
+                <i class="fa-brands fa-telegram text-xl"></i>
+              </div>
+              <i
+                class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-purple-300 transition-colors"></i>
+            </div>
+            <h3
+              class="font-display text-base font-semibold text-white group-hover:text-purple-300 transition-colors mb-1.5">
+              Telegram & Discord Боты
+            </h3>
+            <p class="text-xs leading-relaxed text-slate-400">
+              Магазины, автовыдача товаров, модерация серверов, прием платежей (CryptoBot, ЮKassa, СБП), интеграция с
+              AI.
+            </p>
+          </div>
+          <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center text-[11px] text-purple-400/80 font-medium">
+            <span>Заказать бота</span>
+            <i class="fa-solid fa-angle-right ml-1 text-[9px] group-hover:translate-x-1 transition-transform"></i>
+          </div>
+        </a>
+
+        <!-- Карточка 2: Лендинги и Веб -->
+        <a href="https://t.me/Ifyoseee" target="_blank" rel="noopener noreferrer"
+          class="glass-card group p-4 rounded-2xl flex flex-col justify-between block cursor-pointer">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <div
+                class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 group-hover:scale-105 group-hover:bg-blue-500/20 transition-all">
+                <i class="fa-solid fa-globe text-lg"></i>
+              </div>
+              <i
+                class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-blue-300 transition-colors"></i>
+            </div>
+            <h3
+              class="font-display text-base font-semibold text-white group-hover:text-blue-300 transition-colors mb-1.5">
+              Лендинги и Веб-сервисы
+            </h3>
+            <p class="text-xs leading-relaxed text-slate-400">
+              Адаптивные промо-страницы, портфолио, визитки, чистый HTML/CSS/JS + бэкенд и деплой.
+            </p>
+          </div>
+          <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center text-[11px] text-blue-400/80 font-medium">
+            <span>Заказать сайт</span>
+            <i class="fa-solid fa-angle-right ml-1 text-[9px] group-hover:translate-x-1 transition-transform"></i>
+          </div>
+        </a>
+
+        <!-- Карточка 3: Инфографика WB / Ozon -->
+        <a href="https://t.me/Ifyoseee" target="_blank" rel="noopener noreferrer"
+          class="glass-card group p-4 rounded-2xl flex flex-col justify-between block cursor-pointer">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <div
+                class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 group-hover:scale-105 group-hover:bg-purple-500/20 transition-all">
+                <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
+              </div>
+              <i
+                class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-purple-300 transition-colors"></i>
+            </div>
+            <h3
+              class="font-display text-base font-semibold text-white group-hover:text-purple-300 transition-colors mb-1.5">
+              Инфографика & Маркетплейсы
+            </h3>
+            <p class="text-xs leading-relaxed text-slate-400">
+              Кликабельные обложки и карточки товаров для Wildberries / Ozon, сочный 3D/AI-рендер и ретушь.
+            </p>
+          </div>
+          <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center text-[11px] text-purple-400/80 font-medium">
+            <span>Заказать дизайн</span>
+            <i class="fa-solid fa-angle-right ml-1 text-[9px] group-hover:translate-x-1 transition-transform"></i>
+          </div>
+        </a>
+
+        <!-- Карточка 4: Скрипты и Парсеры -->
+        <a href="https://t.me/Ifyoseee" target="_blank" rel="noopener noreferrer"
+          class="glass-card group p-4 rounded-2xl flex flex-col justify-between block cursor-pointer">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <div
+                class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 group-hover:scale-105 group-hover:bg-blue-500/20 transition-all">
+                <i class="fa-solid fa-terminal text-lg"></i>
+              </div>
+              <i
+                class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-blue-300 transition-colors"></i>
+            </div>
+            <h3
+              class="font-display text-base font-semibold text-white group-hover:text-blue-300 transition-colors mb-1.5">
+              Скрипты и Парсеры
+            </h3>
+            <p class="text-xs leading-relaxed text-slate-400">
+              Автоматизация рутины, сбор данных, чекеры, работа со сторонними API и оптимизация потоков.
+            </p>
+          </div>
+          <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center text-[11px] text-blue-400/80 font-medium">
+            <span>Заказать скрипт</span>
+            <i class="fa-solid fa-angle-right ml-1 text-[9px] group-hover:translate-x-1 transition-transform"></i>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- РАЗДЕЛ: ГАРАНТИИ И ПРЕИМУЩЕСТВА -->
+    <section class="flex flex-col gap-2.5">
+      <div class="flex items-center gap-2 mb-1 px-1">
+        <i class="fa-solid fa-shield-cat text-blue-400 text-sm"></i>
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Надежность и поддержка</h2>
+      </div>
+
+      <!-- Плашка 1 -->
+      <div
+        class="p-3.5 rounded-xl bg-slate-900/40 border border-slate-800/80 hover:border-purple-500/30 transition-colors flex items-start gap-3">
+        <div
+          class="w-7 h-7 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center flex-shrink-0 mt-0.5">
+          <i class="fa-solid fa-server text-xs"></i>
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold text-white">Чистый код и деплой</h4>
+          <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">Помогаю с запуском на вашем VDS / хостинге, передаю
+            исходники без мусора и лишних библиотек.</p>
+        </div>
+      </div>
+
+      <!-- Плашка 2 -->
+      <div
+        class="p-3.5 rounded-xl bg-slate-900/40 border border-slate-800/80 hover:border-purple-500/30 transition-colors flex items-start gap-3">
+        <div
+          class="w-7 h-7 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center flex-shrink-0 mt-0.5">
+          <i class="fa-solid fa-pen-ruler text-xs"></i>
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold text-white">Бесплатная помощь с ТЗ</h4>
+          <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">Если нет готового техзадания — составим понятную
+            структуру вместе за 15 минут.</p>
+        </div>
+      </div>
+
+      <!-- Плашка 3 -->
+      <div
+        class="p-3.5 rounded-xl bg-slate-900/40 border border-slate-800/80 hover:border-purple-500/30 transition-colors flex items-start gap-3">
+        <div
+          class="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center flex-shrink-0 mt-0.5">
+          <i class="fa-solid fa-clock-rotate-left text-xs"></i>
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold text-white">Тестовый период</h4>
+          <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">7 дней бесплатного исправления багов и мелких правок
+            после сдачи готового проекта.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ФУТЕР И ПРИЗЫВ К ДЕЙСТВИЮ (CTA) -->
+    <footer class="pt-2 border-t border-white/5 flex flex-col items-center gap-3">
+
+      <!-- Индикатор онлайна -->
+      <div
+        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/60 border border-slate-800 text-[11px] text-slate-300">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]"></span>
+        <span>В сети • Онлайн для новых задач</span>
+      </div>
+
+      <!-- Главная кнопка перехода в Telegram -->
+      <a href="https://t.me/Ifyoseee" target="_blank" rel="noopener noreferrer"
+        class="w-full relative group overflow-hidden rounded-2xl p-[1px] focus:outline-none focus:ring-2 focus:ring-purple-400">
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 rounded-2xl transition-all duration-300 group-hover:scale-[1.02] group-hover:opacity-100 opacity-90">
+        </div>
+        <div
+          class="relative px-6 py-3.5 rounded-[15px] bg-[#0E1017]/40 flex items-center justify-center gap-3 transition-colors group-hover:bg-transparent">
+          <i class="fa-brands fa-telegram text-xl text-white"></i>
+          <span class="font-display font-semibold text-sm sm:text-base text-white tracking-wide">
+            Написать в Telegram: @Ifyoseee
+          </span>
+          <i class="fa-solid fa-arrow-right text-xs text-white group-hover:translate-x-1 transition-transform"></i>
+        </div>
+      </a>
+
+      <!-- Примечание о безопасной сделке -->
+      <p class="text-[11px] text-slate-500 text-center flex items-center justify-center gap-1.5">
+        <i class="fa-solid fa-lock text-[10px] text-slate-600"></i>
+        Работа через Гарант форума / Безопасная сделка приветствуется
+      </p>
+
+    </footer>
+
+  </main>
+
+</body>
+
+</html>
